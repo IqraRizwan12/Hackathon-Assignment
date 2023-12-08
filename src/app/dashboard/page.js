@@ -16,22 +16,17 @@ import { FaHome, FaCompass, FaShoppingBag, FaHeart, FaEnvelope, FaCog, FaVideo, 
 export default function Dashboard() {
   const [description, setDescription] = useState()
   const [file, setFile] = useState()
+  const [type, setType] = useState()
   const [loading, setLoading] = useState(false)
   const [post, setPost] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [popUpOpen, setPopUpOpen] = useState(false);
   const [friendRequest, setFriendRequest] = useState([])
   const [friends, setFriends] = useState()
-  const [NewMessages, setNewMessages] = useState()
   const [userDetail, setUserDetail] = useState()
   const auth = getAuth();
-  const [msg, setMsg] = useState()
   const router = useRouter()
 
 
-  const isImage = (files) => files.type.startsWith('image')
-  const isAudio = (files) => files.type.startsWith('audio')
-  const isVideo = (files) => files.type.startsWith('video')
 
 
 
@@ -44,8 +39,6 @@ export default function Dashboard() {
   };
 
 
-
- console.log('post',post)
 
 
   useEffect(() => {
@@ -75,6 +68,7 @@ export default function Dashboard() {
   }
 
   console.log('p', post)
+
 
   const request = async () => {
 
@@ -131,13 +125,14 @@ export default function Dashboard() {
 
   const addData = async () => {
     setLoading(true)
-    await posting(description, file[0])
+    await posting(description, file[0], type)
     setLoading(false)
 
   }
 
 
-  console.log('msg', msg)
+
+
 
 
   return <div >
@@ -164,9 +159,9 @@ export default function Dashboard() {
         </div>
 
         <div>
-          <h1 style={{ fontSize: 'large', margin: '10px', pdding: '10px', height: '40px', fontWeight: 'bold' }} >My Contacts</h1>
+          <h1 style={{ fontSize: 'large', margin: '10px', padding: '10px', height: '40px', fontWeight: 'bold' }} >My Contacts</h1>
           {friends.map(item => {
-            return <div style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px' }} >
+            return <div key={item.id} style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px', backgroundColor: '#F3CFC6' }} >
               <h1 > {item.displayName}</h1>
             </div>
           })}
@@ -177,20 +172,20 @@ export default function Dashboard() {
 
 
       <div style={{ width: '45%', display: 'inline-block' }}>
-        <div style={{ backgroundColor: 'beige', margin: '10px' }}>
-          <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px' }} type="text" placeholder="What's happening?" />
+        <div style={{ backgroundColor: '#F3CFC6', margin: '10px' }}>
+          <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px', borderRadius: '10px' }} type="text" placeholder="What's happening?" />
           <div >
             <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Live Video</button>
             <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Photos</button>
             <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Feeling</button>
-            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'green', borderRadius: '10px' }}>Post</button>
+            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'green', borderRadius: '10px', width: '100px' }}>Post</button>
           </div>
         </div>
 
 
 
-        {post.map(item => {
-          return (<div style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px' }}>
+        {post.map((item,index) => {
+          return (<div key={index} style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px', backgroundColor: 'white' }}>
             {userDetail && userDetail.displayName ? (
               <div style={{ display: 'flex', marginLeft: '10px' }}>
                 {userDetail.photoURL ? (
@@ -208,30 +203,15 @@ export default function Dashboard() {
               <span>Loading...</span>
             )}
             <h1 style={{ fontSize: 'large', margin: '10px', padding: '10px', height: '50px' }} >{item.description}</h1>
-            {/* {file && Array.from(file).map((item, index) => {
-              return <div key={index}>
-                {isImage(item) && (
-                  <Image
-                    src={URL.createObjectURL(item)}
-                    width={200}
-                    height={200}
-                    alt="uploading"
-                  />
-                )}
-
-                {isVideo(item) && (
-                  <ReactPlayer url={URL.createObjectURL(item)} controls={true} />
-                )}
-
-                {isAudio(item) && (
-                  <ReactPlayer url={URL.createObjectURL(item)} controls={true} />
-                )}
-
-              </div>
-
-            })}  */}
-
-            <img src={item.Url} height={100} />
+            {item.type === 'image' ? (
+            <img src={item.Url} alt={item.description} style={{ maxWidth: '100%', maxHeight: '400px' }} />
+          ) : item.type === 'video' ? (
+            <video controls width="800">
+              <source src={item.Url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : null}
+            
             <button style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px', width: '25%', border: '1px solid black' }}>Like</button>
             <button style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px', width: '25%', border: '1px solid black' }}>Comment</button>
             <button style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px', width: '25%', border: '1px solid black' }}>Share</button>
@@ -241,8 +221,8 @@ export default function Dashboard() {
       </div>
       <div >
         <h1 style={{ fontSize: 'large', fontWeight: 'bolder', margin: '10px' }}>Friend Request</h1>
-        {friendRequest.map(item => {
-          return (<div style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px' }} >
+        {friendRequest.map((item,index) => {
+          return (<div key={index} style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px', backgroundColor: '#F3CFC6' }} >
             <h1 style={{ textAlign: 'center' }}>{item.displayName}</h1>
             <center>
               <button onClick={() => { updateStatus(item.id, 'accepted') }} style={{ marginLeft: '10px', padding: '10px', margin: '10px', fontSize: 'small', backgroundColor: 'green', borderRadius: '5px', textAlign: 'center' }}>Confirm</button>
@@ -255,19 +235,14 @@ export default function Dashboard() {
       </div>
       <div>
         <h1 style={{ fontSize: 'large', margin: '10px', padding: '10px', height: '40px', fontWeight: 'bolder' }} >CHATS</h1>
-        {friends.map(item => {
-          return <div onClick={(item) => handleClick(item)
-          } style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px', width: '200px', display: 'flex', justifyContent: 'space-between' }} >
+        {friends.map((item,index) => {
+          return <div key={index} onClick={(item) => handleClick(item)
+          } style={{ border: '1px solid black', borderRadius: '10px', margin: '10px', padding: '10px', width: '200px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#F3CFC6' }} >
             <h1> {item.displayName}</h1>
             <FaEnvelope />
           </div>
         })}
-        {/* <div>
-          <form >
-            <input style={{ backgroundColor: 'beige' }} type="text" placeholder="Type your message here..." onChange={(e) => setNewMessages(e.target.value)} />
-            <button style={{ padding: '10px', marginLeft: '60px', fontSize: 'small', backgroundColor: 'red', borderRadius: '5px', width: '50px', marginTop: '10px' }} onClick={postMessages}>Send</button>
-          </form>
-        </div> */}
+       
 
 
 
@@ -280,6 +255,7 @@ export default function Dashboard() {
         <h1 style={{ fontSize: 'x-large', fontWeight: 'bolder', margin: '20px' }}>Create Post</h1>
         <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px' }} type="text" onChange={(e) => setDescription(e.target.value)} placeholder="What's happening?" />
         <input style={{ width: '95%', height: '50px', fontSize: 'large', margin: '10px' }} type="file" onChange={(e) => setFile(e.target.files)} multiple />
+        <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px' }} type="text" onChange={(e) => setType(e.target.value)} placeholder="Write Image/Video/Audio" />
         {loading ? <center><Image
           src="https://i.gifer.com/ZKZg.gif"
           alt="Loading"
@@ -293,5 +269,5 @@ export default function Dashboard() {
 
 
 
-  </div>
+  </div >
 }

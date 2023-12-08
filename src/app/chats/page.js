@@ -43,8 +43,8 @@ const Chats = () => {
       
       <div >
         <center>
-        {chats.map((item) => {
-          return <div style={{border:'1px solid green',marginBottom:'6px',padding:'5px',width:'30%',borderRadius:'10px',backgroundColor:'green'}} key={item.id}>{item.text}</div>
+        {chats.map((item,index) => {
+          return <div key={index} style={{border:'1px solid green',marginBottom:'6px',padding:'5px',width:'30%',borderRadius:'10px',backgroundColor:'green'}}>{item.text}</div>
         })}
         </center>
       </div>
@@ -76,11 +76,7 @@ const Chats = () => {
         </div>
       )}
 
-      {/* <div>
-        {chats.map((item) => {
-          return <div key={item.id}>{item.text}</div>
-        })}
-      </div> */}
+    
     </div>
   );
 };

@@ -25,14 +25,17 @@ const db = getFirestore(app)
 const storage = getStorage(app)
 
 
-function loginWithFacebook() {
+
+
+function loginWithFacebook () {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then((result)  => {
         const user = result.user;
+        console.log('u', result.user.providerData)
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
-        console.log('user', user)
-  
+        
+        
       })
   
       .catch((error) => {
@@ -76,6 +79,8 @@ function loginWithFacebook() {
       });
   }
   
+
+
   async function addDetail(uid, fullName, email) {
     const docRef = await addDoc(collection(db, "userss"), {
       uid,
@@ -98,11 +103,12 @@ function loginWithFacebook() {
     return list;
   }
   
-  async function posting(description, file) {
+  async function posting(description, file,type) {
     const url = await uploadImage(file)
     const docRef = await addDoc(collection(db, "data"), {
       description,
-      Url: url
+      Url: url,
+      type:type
     });
   }
   

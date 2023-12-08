@@ -8,6 +8,7 @@ export default function login() {
     const router = useRouter()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [profilePic,setProfilePic] = useState()
 
 
     const onLogin = async () => {
@@ -20,6 +21,8 @@ export default function login() {
         }
 
     }
+
+    console.log('profilePic',profilePic)
 
     const signin = async () => {
         const res = await LoginUser(email, password);
