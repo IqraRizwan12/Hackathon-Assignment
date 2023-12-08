@@ -10,6 +10,9 @@ const nextConfig = {
           },
         ],
       },
+      reactExperimental: {
+        serverComponents: true,
+      },
 }
 
 module.exports = nextConfig
