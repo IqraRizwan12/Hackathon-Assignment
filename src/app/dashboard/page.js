@@ -2,22 +2,14 @@
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
 import { Header } from '../Header.js/page'
-import { checkAndCreateRoom, posting } from '../firebase/page'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { getPosts } from "../firebase/page"
-import Image from 'next/image'
 import Link from 'next/link'
-import Popup from "../Popup/page"
 import { updateStatus } from "../firebase/page"
-import ReactPlayer from "react-player"
 import { collection, query, where, onSnapshot, db } from '../firebase/page'
 import { FaHome, FaCompass, FaShoppingBag, FaHeart, FaEnvelope, FaCog, FaVideo, FaCamera, FaSmile } from 'react-icons/fa';
 
 export default function Dashboard() {
-  const [description, setDescription] = useState()
-  const [file, setFile] = useState()
-  const [type, setType] = useState()
-  const [loading, setLoading] = useState(false)
   const [post, setPost] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [friendRequest, setFriendRequest] = useState([])
@@ -29,14 +21,9 @@ export default function Dashboard() {
 
 
 
-
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
+  const postData = () =>{
+    router.push('/posts')
+  }
 
 
 
@@ -175,10 +162,10 @@ export default function Dashboard() {
         <div style={{ backgroundColor: '#F3CFC6', margin: '10px' }}>
           <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px', borderRadius: '10px' }} type="text" placeholder="What's happening?" />
           <div >
-            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Live Video</button>
-            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Photos</button>
-            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Feeling</button>
-            <button onClick={openPopup} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'green', borderRadius: '10px', width: '100px' }}>Post</button>
+            <button onClick={postData} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Live Video</button>
+            <button onClick={postData} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Photos</button>
+            <button onClick={postData} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'white', borderRadius: '10px' }}>Feeling</button>
+            <button onClick={postData} style={{ padding: '10px', margin: '20px', fontSize: 'large', backgroundColor: 'green', borderRadius: '10px', width: '100px' }}>Post</button>
           </div>
         </div>
 
@@ -248,24 +235,6 @@ export default function Dashboard() {
 
       </div>
     </div>
-
-
-    <Popup isOpen={isPopupOpen} onClose={closePopup}>
-      <div style={{ display: "flex", flexDirection: 'column', border: '1px solid black', width: '38%', margin: 'auto', textAlign: 'center', borderRadius: '10px', height: '300px', backgroundColor: 'beige' }} >
-        <h1 style={{ fontSize: 'x-large', fontWeight: 'bolder', margin: '20px' }}>Create Post</h1>
-        <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px' }} type="text" onChange={(e) => setDescription(e.target.value)} placeholder="What's happening?" />
-        <input style={{ width: '95%', height: '50px', fontSize: 'large', margin: '10px' }} type="file" onChange={(e) => setFile(e.target.files)} multiple />
-        <input style={{ width: '95%', height: '30px', fontSize: 'large', margin: '10px', padding: '10px' }} type="text" onChange={(e) => setType(e.target.value)} placeholder="Write Image/Video/Audio" />
-        {loading ? <center><Image
-          src="https://i.gifer.com/ZKZg.gif"
-          alt="Loading"
-          width={50}
-          height={50}
-        /></center> : <button style={{ padding: '10px', margin: '10px', fontSize: 'large', backgroundColor: 'green', borderRadius: '5px' }} onClick={addData}>Post</button>}
-      </div>
-    </Popup>
-
-
 
 
 
