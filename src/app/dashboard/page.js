@@ -44,7 +44,7 @@ export default function Dashboard() {
     request()
     MyContacts()
 
-  }, [Logout])
+  }, [auth])
 
   async function Logout() {
     await signOut(auth)
@@ -64,7 +64,7 @@ export default function Dashboard() {
     setPost(data)
   }
 
-  console.log('p', post)
+ 
 
 
   const request = async () => {
