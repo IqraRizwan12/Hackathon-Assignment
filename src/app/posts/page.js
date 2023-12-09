@@ -3,7 +3,7 @@ import { posting } from '../firebase/page'
 import {  useState } from "react"
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-export default function post() {
+export default function Post() {
     const [description, setDescription] = useState()
     const [file, setFile] = useState()
     const [type, setType] = useState()

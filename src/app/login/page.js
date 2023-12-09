@@ -4,7 +4,7 @@ import { loginWithFacebook } from '../firebase/page'
 import { LoginUser } from '../firebase/page'
 import { useState } from 'react'
 
-export default function login() {
+export default function Login() {
     const router = useRouter()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
