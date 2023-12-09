@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { postMessages } from '../firebase/page';
-import { collection, query, where, onSnapshot, db } from '../firebase/page';
+import { postMessages } from '../config/firebase';
+import { collection, query, where, onSnapshot, db } from '../config/firebase';
 
 const Chats = () => {
   const [newMessages, setNewMessages] = useState('');

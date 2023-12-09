@@ -8,6 +8,9 @@ const nextConfig = {
             port: '',
             pathname: '/ZKZg.gif',
           },
+
+
+
         ],
       },
      

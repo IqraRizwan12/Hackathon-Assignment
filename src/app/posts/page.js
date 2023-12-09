@@ -1,5 +1,5 @@
 'use client'
-import { posting } from '../firebase/page'
+import { posting } from '../config/firebase'
 import {  useState } from "react"
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'

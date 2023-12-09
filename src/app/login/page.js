@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { loginWithFacebook } from '../firebase/page'
-import { LoginUser } from '../firebase/page'
+import { loginWithFacebook } from '../config/firebase'
+import { LoginUser } from '../config/firebase'
 import { useState } from 'react'
 
 export default function Login() {

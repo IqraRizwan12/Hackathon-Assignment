@@ -1,17 +1,16 @@
 'use client'
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation'
-import { Header } from '../Header.js/page'
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { getPosts } from "../firebase/page"
+import { getPosts } from "../config/firebase"
 import Link from 'next/link'
-import { updateStatus } from "../firebase/page"
-import { collection, query, where, onSnapshot, db } from '../firebase/page'
+import { updateStatus } from "../config/firebase"
+import { collection, query, where, onSnapshot, db } from '../config/firebase'
 import { FaHome, FaCompass, FaShoppingBag, FaHeart, FaEnvelope, FaCog, FaVideo, FaCamera, FaSmile } from 'react-icons/fa';
+import { signOut } from "firebase/auth";
 
 export default function Dashboard() {
   const [post, setPost] = useState([])
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [friendRequest, setFriendRequest] = useState([])
   const [friends, setFriends] = useState()
   const [userDetail, setUserDetail] = useState()
@@ -45,8 +44,19 @@ export default function Dashboard() {
     request()
     MyContacts()
 
-  }, [])
+  }, [Logout])
 
+  async function Logout() {
+    await signOut(auth)
+      .then(() => {
+        setUserDetail(null);
+        router.push('/login',{scroll:false})
+        
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  }
 
 
   const getData = async () => {
@@ -123,7 +133,28 @@ export default function Dashboard() {
 
 
   return <div >
-    <Header />
+   <div style={{ backgroundColor: '#F3CFC6', padding: '10px', display: 'flex' }}>
+    <h1 style={{ fontSize: 'x-large', marginRight: '30px', marginLeft: '10px', textAlign: 'left' }}>Scrolllink</h1>
+    <input style={{ width: '400px', height: '40px', marginLeft: '200px', borderRadius: '10px', padding: '10px' }} placeholder=' Search Something here' type="text" />
+    {userDetail && userDetail.displayName ? (
+      <div style={{ display: 'flex', marginLeft: '300px' }}>
+        {userDetail.photoURL ? (
+          <img
+            src={userDetail.photoURL}
+            alt="User Photo"
+            style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }}
+          />
+        ) : (
+          <span>No Photo</span>
+        )}
+        <span style={{ fontSize: 'large' }} >{userDetail.displayName}</span>
+      </div>
+    ) : (
+      <span>Loading...</span>
+    )}
+    <button style={{ padding: '3px', margin: '3px', fontSize: 'small', backgroundColor: 'green', borderRadius: '10px', width: '100px', border: '1px solid black' }} onClick={Logout}>Logout</button>
+
+  </div>
     <div style={{ display: 'flex' }}>
       <div style={{ width: '20%' }}>
         <div style={{ display: 'flex', padding: '10px', margin: '10px', fontSize: 'large' }}>
