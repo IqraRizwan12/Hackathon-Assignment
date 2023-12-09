@@ -8,7 +8,7 @@ export default function login() {
     const router = useRouter()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [profilePic,setProfilePic] = useState()
+    const [profilePic, setProfilePic] = useState()
 
 
     const onLogin = async () => {
@@ -22,7 +22,7 @@ export default function login() {
 
     }
 
-    console.log('profilePic',profilePic)
+    console.log('profilePic', profilePic)
 
     const signin = async () => {
         const res = await LoginUser(email, password);
@@ -42,8 +42,12 @@ export default function login() {
             <p>or</p>
             <button style={{ width: '90%', height: '35px', fontSize: 'large', borderRadius: '5px', color: 'white', backgroundColor: 'deeppink', marginBottom: '10px', border: '1px solid deeppink' }} onClick={signin} >Log In</button>
             <button style={{ width: '90%', height: '35px', fontSize: 'large', borderRadius: '5px', color: 'deeppink', backgroundColor: 'white', marginBottom: '10px', border: '1px solid deeppink' }} >Signup</button>
-            <p>By signing up, you agree to our <span style={{ color: 'deeppink' }}>Terms and Conditions</span> and <span style={{ color: 'deeppink' }}>Privacy Policy</span></p>
-
+            {/* <p>By signing up, you agree to our <span style={{ color: 'deeppink' }}>Terms and Conditions</span> and <span style={{ color: 'deeppink' }}>Privacy Policy</span></p> */}
+            <p>
+                By signing up, you agree to our{' '}
+                <span style={{ color: 'deeppink' }}>Terms and Conditions</span> and{' '}
+                <span style={{ color: 'deeppink' }}>Privacy Policy</span>
+            </p>
         </div>
     )
 }

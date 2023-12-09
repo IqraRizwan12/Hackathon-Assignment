@@ -13,7 +13,6 @@ export default function Register(){
    setEmail("")
    setPassword("")
    setFullName("")
-
    router.push('/login')
 
   }
